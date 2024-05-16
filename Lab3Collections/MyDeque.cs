@@ -130,7 +130,7 @@ namespace Lab3Collections
          public override string ToString()
         {
             if (_top == null) return "[ ]";
-            Node<T> current = _top;
+            Node<T> current = head;
             var sb = new StringBuilder("[");
 
             while (current.Next != null)
