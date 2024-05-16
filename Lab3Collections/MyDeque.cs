@@ -126,5 +126,20 @@ namespace Lab3Collections
                 current = current.Next;
             }
         }
+
+         public override string ToString()
+        {
+            if (_top == null) return "[ ]";
+            Node<T> current = _top;
+            var sb = new StringBuilder("[");
+
+            while (current.Next != null)
+            {
+                sb.Append($" {current.Data},\n ");
+                current = current.Next;
+            }
+            sb.Append($" {current.Data} ]");
+            return sb.ToString();
+        }
     }
 }
