@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Lab3Collections 
 {
-  public class Deque<T> : IEnumerable<T>
+  public class MyDeque<T> : IEnumerable<T>
     {
         Node<T> head; 
         Node<T> tail; 
@@ -129,16 +130,15 @@ namespace Lab3Collections
 
          public override string ToString()
         {
-            if (_top == null) return "[ ]";
-            Node<T> current = head;
             var sb = new StringBuilder("[");
 
-            while (current.Next != null)
+            foreach (T s in this)
             {
-                sb.Append($" {current.Data},\n ");
-                current = current.Next;
+                sb.Append(s.ToString());
+                sb.Append(",");
             }
-            sb.Append($" {current.Data} ]");
+
+            sb.Append("]");
             return sb.ToString();
         }
 
@@ -146,12 +146,12 @@ namespace Lab3Collections
         {
             MyDeque<T> result = new MyDeque<T>();
 
-            if (first.tail.Next == null) throw new Exception("Empty deque"); 
+            if (first.head == null) throw new Exception("Empty deque"); 
 
-            Node<T>? current = first.tail.Next;
+            Node<T>? current = first.head;
             while (current != null)
             {
-                if (second.Contains(current.tail.Data)) result.AddFirst(current.tail.Data);
+                if (second.Contains(current.Data)) result.AddFirst(current.Data);
                 current = current.Previous;
             }
 
@@ -161,22 +161,21 @@ namespace Lab3Collections
          public static MyDeque<T> operator +(MyDeque<T> first, MyDeque<T> second)
         {
             MyDeque<T> result = new MyDeque<T>();
-
-            Node<T>? current = first.tail.Next ?? throw new Exception("Empty deque");
+                        Node<T>? current = first.head ?? throw new Exception("Empty deque");
 
             while (current != null)
             {
-                result.AddFirst(current.tail.Data);
-                current = current.tail.Next;
+                result.AddFirst(current.Data);
+                current = current.Next;
             }
 
-            if (second.tail.Next == null) return result;
+            if (second.head == null) return result;
             
-            current = second.tail.Next;
+            current = second.head;
             while (current != null)
             {
-                result.AddFirst(current.tail.Data);
-                current = current.tail.Next;
+                result.AddFirst(current.Data);
+                current = current.Next;
             }
 
             return result;
@@ -186,13 +185,13 @@ namespace Lab3Collections
         {
             MyDeque<T> result = new MyDeque<T>();
 
-            if (first.tail.Next == null) throw new Exception("Empty deque");
+            if (first.head == null) throw new Exception("Empty deque");
 
-            Node<T>? current = first.tail.Next;
+            Node<T>? current = first.head;
             while (current != null)
             {
-                if (!second.Contains(current.tail.Data)) result.AddFirst(current.tail.Data);
-                current = current.tail.Previous;
+                if (!second.Contains(current.Data)) result.AddFirst(current.Data);
+                current = current.Previous;
             }
 
             return result;
