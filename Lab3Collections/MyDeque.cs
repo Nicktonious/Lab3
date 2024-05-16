@@ -141,5 +141,61 @@ namespace Lab3Collections
             sb.Append($" {current.Data} ]");
             return sb.ToString();
         }
+
+         public static MyDeque<T> operator *(MyDeque<T> first, MyDeque<T> second)
+        {
+            MyDeque<T> result = new MyDeque<T>();
+
+            if (first.tail.Next == null) throw new Exception("Empty deque"); 
+
+            Node<T>? current = first.tail.Next;
+            while (current != null)
+            {
+                if (second.Contains(current.tail.Data)) result.AddFirst(current.tail.Data);
+                current = current.Previous;
+            }
+
+            return result;
+        }
+
+         public static MyDeque<T> operator +(MyDeque<T> first, MyDeque<T> second)
+        {
+            MyDeque<T> result = new MyDeque<T>();
+
+            Node<T>? current = first.tail.Next ?? throw new Exception("Empty deque");
+
+            while (current != null)
+            {
+                result.AddFirst(current.tail.Data);
+                current = current.tail.Next;
+            }
+
+            if (second.tail.Next == null) return result;
+            
+            current = second.tail.Next;
+            while (current != null)
+            {
+                result.AddFirst(current.tail.Data);
+                current = current.tail.Next;
+            }
+
+            return result;
+        }
+
+        public static MyDeque<T> operator -(MyDeque<T> first, MyDeque<T> second)
+        {
+            MyDeque<T> result = new MyDeque<T>();
+
+            if (first.tail.Next == null) throw new Exception("Empty deque");
+
+            Node<T>? current = first.tail.Next;
+            while (current != null)
+            {
+                if (!second.Contains(current.tail.Data)) result.AddFirst(current.tail.Data);
+                current = current.tail.Previous;
+            }
+
+            return result;
+        }
     }
 }
